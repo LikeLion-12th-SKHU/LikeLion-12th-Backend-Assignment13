@@ -15,7 +15,7 @@ import static java.lang.annotation.ElementType.*;
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 public @interface EnumValid {
-    String message() default "WEB이나 sERvER로 작성해 주세요";
+    String message() default "WEB 이나 SERVER 로 작성해 주세요";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

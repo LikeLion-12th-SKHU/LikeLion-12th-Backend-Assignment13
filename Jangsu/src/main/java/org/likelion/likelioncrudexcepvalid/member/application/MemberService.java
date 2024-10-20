@@ -7,6 +7,7 @@ import org.likelion.likelioncrudexcepvalid.member.api.dto.request.MemberUpdateRe
 import org.likelion.likelioncrudexcepvalid.member.api.dto.response.MemberInfoResDto;
 import org.likelion.likelioncrudexcepvalid.member.api.dto.response.MemberListResDto;
 import org.likelion.likelioncrudexcepvalid.member.domain.Member;
+import org.likelion.likelioncrudexcepvalid.member.domain.Part;
 import org.likelion.likelioncrudexcepvalid.member.domain.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -84,5 +85,30 @@ public class MemberService {
 
         memberRepository.delete(member);
         return MemberInfoResDto.from(member);
+    }
+
+// 여기서부터 과제
+
+    // 입력된 나이 이상을 조회
+    public MemberListResDto memberFindAgeOverInput(Integer searchInput) {
+        List<Member> posts = memberRepository.findByOverInputAge(searchInput);
+
+        List<MemberInfoResDto> memberInfoResDto = posts.stream()
+                .map(MemberInfoResDto::from)
+                .toList();
+
+        return MemberListResDto.from(memberInfoResDto);
+    }
+
+    // 입력된 맴버의 파트를 조회
+    public MemberListResDto memberFindPart(String memberPart) {
+        Part searchInput = Part.valueOf(memberPart);
+        List<Member> membersParts = memberRepository.findByMembersPart(searchInput);
+
+        List<MemberInfoResDto> memberInfoResDto = membersParts.stream()
+                .map(MemberInfoResDto::from)
+                .toList();
+
+        return MemberListResDto.from(memberInfoResDto);
     }
 }

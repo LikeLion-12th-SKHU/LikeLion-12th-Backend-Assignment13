@@ -3,13 +3,18 @@ package org.likelion.likelioncrudexcepvalid.post.api.dto;
 import jakarta.validation.Valid;
 import org.likelion.likelioncrudexcepvalid.common.dto.BaseResponse;
 import org.likelion.likelioncrudexcepvalid.common.error.SuccessCode;
+import org.likelion.likelioncrudexcepvalid.member.domain.Part;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.request.PostSaveReqDto;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.request.PostUpdateReqDto;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.response.PostInfoResDto;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.response.PostListResDto;
 import org.likelion.likelioncrudexcepvalid.post.application.PostService;
+import org.likelion.likelioncrudexcepvalid.post.domain.Post;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -67,5 +72,14 @@ public class PostController {
     public BaseResponse<PostInfoResDto> postDelete(@PathVariable("postId") Long postId) {
         PostInfoResDto postInfoResDto = postService.postDelete(postId);
         return BaseResponse.success(SuccessCode.POST_DELETE_SUCCESS, postInfoResDto);
+    }
+
+//  여기서부터 과제
+    
+    // 게시글 내용을 검색을 통해 찾기
+    @GetMapping("/search/{input}")
+    public ResponseEntity<PostListResDto> postFindByInput(@PathVariable("input") String input) {
+        PostListResDto postListResDto = postService.postFindByInput(input);
+        return new ResponseEntity<>(postListResDto, HttpStatus.OK);
     }
 }

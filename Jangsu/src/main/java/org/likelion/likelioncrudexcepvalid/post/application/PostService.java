@@ -3,6 +3,7 @@ package org.likelion.likelioncrudexcepvalid.post.application;
 import org.likelion.likelioncrudexcepvalid.common.Exception.NotFoundException;
 import org.likelion.likelioncrudexcepvalid.common.error.ErrorCode;
 import org.likelion.likelioncrudexcepvalid.member.domain.Member;
+import org.likelion.likelioncrudexcepvalid.member.domain.Part;
 import org.likelion.likelioncrudexcepvalid.member.domain.repository.MemberRepository;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.request.PostSaveReqDto;
 import org.likelion.likelioncrudexcepvalid.post.api.dto.request.PostUpdateReqDto;
@@ -106,5 +107,19 @@ public class PostService {
 
         postRepository.delete(post);
         return PostInfoResDto.from(post);
+    }
+
+// 여기서부터 과제
+
+    // 글 검색 조회
+    public PostListResDto postFindByInput(String input) {
+        String searchInput = "%" + input + "%";
+        List<Post> posts = postRepository.findByInput(searchInput);
+
+        List<PostInfoResDto> postInfoResDtoList = posts.stream()
+                .map(PostInfoResDto::from)
+                .toList();
+
+        return PostListResDto.from(postInfoResDtoList);
     }
 }

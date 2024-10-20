@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,7 +37,7 @@ public class MemberController {
     @ResponseStatus(HttpStatus.OK)
     public BaseResponse<MemberListResDto> memberFindAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sort", defaultValue = "memberId,asc") String sort
     ) {
         Pageable pageable;
@@ -44,8 +45,8 @@ public class MemberController {
         if (sort.isEmpty()) {
             pageable = PageRequest.of(page, size, Sort.by("memberId").ascending());
         } else {
-            String[] sortParms = sort.split(",");
-            Sort sortOrder = Sort.by(Sort.Direction.fromString(sortParms[1]), sortParms[0]);
+            String[] sortParams = sort.split(",");
+            Sort sortOrder = Sort.by(Sort.Direction.fromString(sortParams[1]), sortParams[0]);
             pageable = PageRequest.of(page, size, sortOrder);
         }
         MemberListResDto memberListResDto = memberService.memberFindAll(pageable);
@@ -75,5 +76,21 @@ public class MemberController {
     public BaseResponse<MemberInfoResDto> memberDelete(@PathVariable("memberId") Long memberId) {
         MemberInfoResDto memberInfoResDto = memberService.memberDelete(memberId);
         return BaseResponse.success(SuccessCode.MEMBER_DELETE_SUCCESS, memberInfoResDto);
+    }
+
+//  여기서 부터 과제
+
+    // 나이 값에 따른 사용자 정보 출력
+    @GetMapping("/search/age/{input}")
+    public ResponseEntity<MemberListResDto> postFindByInputAge(@PathVariable("input") Integer inputAge) {
+        MemberListResDto memberListResDto = memberService.memberFindAgeOverInput(inputAge);
+        return new ResponseEntity<>(memberListResDto, HttpStatus.OK);
+    }
+
+    // 나이 값에 따른 사용자 정보 출력
+    @GetMapping("/search/part/{part}")
+    public ResponseEntity<MemberListResDto> postFindByInputPart(@PathVariable("part") String inputPart) {
+        MemberListResDto memberListResDto = memberService.memberFindPart(inputPart);
+        return new ResponseEntity<>(memberListResDto, HttpStatus.OK);
     }
 }

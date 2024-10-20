@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/LikeLion_12th-Backend_Assignment13.iml" filepath="$PROJECT_DIR$/.idea/LikeLion_12th-Backend_Assignment13.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/likelion-crud-excep-valid.main.iml" filepath="$PROJECT_DIR$/.idea/modules/likelion-crud-excep-valid.main.iml" />
+    </modules>
+  </component>
+</project>
